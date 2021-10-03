@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["🚀", "🚗", "🚌", "🛳", "🚕", "🚞", "🚢", "🚝", "🚁", "🛶", "🛻", "🚔", "⛵️", "🚟", "🚡", "🛵", "🛴", "🚲", "🦼", "🦽", "🚐", "🏎", "🛸", "🚂"]
-    @State var emojiCount = 20
+    let travelEmojis = ["🚀", "🚗", "🚌", "🛳", "🚕", "🚞", "🚢", "🚝", "🚁", "🛶", "🛻", "🚔", "⛵️", "🚟", "🚡", "🛵", "🛴", "🚲", "🦼", "🦽", "🚐", "🏎", "🛸", "🚂"]
+    let sportEmojis = ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🥏", "🎱", "🪀", "🏓", "🏸", "🏒", "🏑", "🥍", "🏏", "🪃", "🥅", "⛳️", "🪁", "🏹", "🎣", "🤿", "🥊"]
+    let foodEmojis = ["🍏", "🍎", "🍐", "🍊", "🍌", "🍉", "🍇", "🍓", "🍈", "🍑", "🥐", "🥨", "🧀", "🥚", "🥞", "🥓", "🥩", "🍗", "🌭", "🍔", "🍟", "🍕", "🍝"]
+    @State var emojis = ["🚀", "🚗", "🚌", "🛳", "🚕", "🚞", "🚢", "🚝", "🚁", "🛶", "🛻", "🚔", "⛵️", "🚟", "🚡", "🛵", "🛴", "🚲", "🦼", "🦽", "🚐", "🏎", "🛸", "🚂"].shuffled()
+    @State var emojiCount = 14
     
     var body: some View {
         VStack {
+            Text("Memorize!")
+                .font(.largeTitle)
+                .bold()
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
                     ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
@@ -24,6 +30,12 @@ struct ContentView: View {
             Spacer()
             HStack {
                 remove
+                Spacer()
+                change(title: "Vehicle", type: travelEmojis, buttonImage: "airplane")
+                Spacer()
+                change(title: "Sports", type: sportEmojis, buttonImage: "sportscourt")
+                Spacer()
+                change(title: "Food", type: foodEmojis, buttonImage: "hare")
                 Spacer()
                 add
             }
@@ -50,6 +62,19 @@ struct ContentView: View {
             }
         } label: {
             Image(systemName: "plus.circle")
+        }
+    }
+    
+    func change(title: String, type: [String], buttonImage: String) -> some View {
+        return VStack {
+            Button {
+                emojis = type.shuffled()
+            } label: {
+                Image(systemName: buttonImage)
+            }
+            Text(title)
+                .font(.footnote)
+                .foregroundColor(.blue)
         }
     }
 }
